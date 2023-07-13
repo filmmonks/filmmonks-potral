@@ -1,16 +1,16 @@
-import { Table, Space, Button, Modal, Form, Input } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import { Table, Button, Space, Form, Modal } from "antd";
+import Input from "antd/es/input/Input";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-const TeamTable = () => {
+
+const ShowreelTable = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/teams")
+    fetch("http://localhost:5000/api/showreels-link")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
@@ -18,73 +18,22 @@ const TeamTable = () => {
 
   const columns = [
     {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      render: (image) => {
-        if (image) {
-          return (
-            <img
-              src={`http://localhost:5000/team/` + image}
-              alt="Team Member"
-              width={50}
-            />
-          );
-        } else {
-          return (
-            <img
-              src="https://t4.ftcdn.net/jpg/05/49/98/39/240_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
-              alt="Default"
-              width={50}
-            />
-          );
-        }
-      },
+      title: "Link",
+      dataIndex: "link",
+      key: "link",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Designation",
-      dataIndex: "title",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Facebook",
-      dataIndex: "fb_link",
-    },
-    {
-      title: "LinkedIn",
-      dataIndex: "linkedin",
-    },
-
-    {
-      title: "Action",
-      dataIndex: "action",
+      title: "Actions",
+      key: "actions",
       render: (_, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => handleEdit(record)}
-          >
-            Edit
-          </Button>
-          <Button
-            type="danger"
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record._id)}
-          >
-            Delete
-          </Button>
+          <Button onClick={() => handleEdit(record)}>Edit</Button>
+          <Button onClick={() => handleDelete(record._id)}>Delete</Button>
         </Space>
       ),
     },
   ];
+
   const handleEdit = (record) => {
     console.log(record);
     setSelectedRecord(record);
@@ -97,10 +46,11 @@ const TeamTable = () => {
       .then((values) => {
         console.log(values);
         // Extract the email from the form values
-        const { email, ...data } = values;
+        const { link, ...data } = values;
 
         // Perform save/update logic using the values
-        fetch(`http://localhost:5000/api/teams/${email}`, {
+
+        fetch(`http://localhost:5000/api/showreels-link/${link}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +80,7 @@ const TeamTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/teams/${key}`;
+    const url = `http://localhost:5000/api/showreels-link/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -144,7 +94,7 @@ const TeamTable = () => {
         }
         // Handle success response
         console.log("Resource deleted successfully");
-        toast("member is deleted");
+        toast("Link is deleted");
       })
       .catch((error) => {
         // Handle error
@@ -154,10 +104,9 @@ const TeamTable = () => {
     // Handle delete button click for the corresponding record
     console.log("Delete button clicked for record with key:", key);
   };
-
   return (
     <>
-      <Table dataSource={dataSource} columns={columns} scroll={{ x: 800 }} />
+      <Table columns={columns} dataSource={dataSource} />
       <Modal
         title="Edit Record"
         visible={isModalVisible}
@@ -165,30 +114,16 @@ const TeamTable = () => {
         onCancel={handleCancel}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item
-            name="title"
-            label="Designation"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="fb_link"
-            label="Facebook"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="linkedin"
-            label="LinkedIn"
-            rules={[{ required: true }]}
+            label="Link"
+            name="link"
+            rules={[
+              {
+                required: true,
+                type: "url",
+                message: "Please enter a valid URL",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -198,4 +133,4 @@ const TeamTable = () => {
   );
 };
 
-export default TeamTable;
+export default ShowreelTable;

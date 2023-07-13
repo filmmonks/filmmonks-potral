@@ -6,7 +6,7 @@ import {
   VideoCameraOutlined,
   MailOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import Home from "./section/Home";
@@ -16,13 +16,26 @@ import WorkTimelineForm from "./section/WorkTimeLineForm";
 import MonksForm from "./section/MonksForm";
 import TeamForm from "./section/TeamForm";
 import TeamTable from "./Table/TeamTable";
+import { signOut } from "firebase/auth";
+import auth from "../../../firebase.init";
+import ShowreelTable from "./Table/ShowreelTable";
+import WorkTimelineTable from "./Table/WorkTimelineTable";
+import HomeCoverTable from "./Table/HomeCoverTable";
+import AboutTable from "./Table/AboutTable";
+import MonksGalaryTable from "./Table/MonksGalaryTable";
+
 const { Header, Sider, Content } = Layout;
 const Menubar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedNav, setSelectedNav] = useState("1");
+  const [selectedNav, setSelectedNav] = useState("");
 
   const handleNavClick = (navKey) => {
     setSelectedNav(navKey);
+  };
+
+  const handleSignout = () => {
+    console.log("first")
+    signOut(auth);
   };
 
   const renderContent = () => {
@@ -68,11 +81,39 @@ const Menubar = () => {
       case "8":
         return (
           <div>
+            <HomeCoverTable />
+          </div>
+        );
+      case "9":
+        return (
+          <div>
+            <AboutTable />
+          </div>
+        );
+      case "10":
+        return (
+          <div>
+            <MonksGalaryTable />
+          </div>
+        );
+      case "11":
+        return (
+          <div>
             <TeamTable />
           </div>
-        ); // Add your content for Meet the Team here
-      case "9":
-        return <div>Content for Work Timeline</div>; // Add your content for Work Timeline here
+        );
+      case "12":
+        return (
+          <div>
+            <WorkTimelineTable />
+          </div>
+        );
+      case "13":
+        return (
+          <div>
+            <ShowreelTable />
+          </div>
+        );
       default:
         return null;
     }
@@ -91,13 +132,25 @@ const Menubar = () => {
             onClick={({ key }) => handleNavClick(key)}
           >
             <Menu.Item key="8" icon={<UserOutlined />}>
-              Meet the Team
+              Home
             </Menu.Item>
             <Menu.Item key="9" icon={<UserOutlined />}>
+              About
+            </Menu.Item>
+            <Menu.Item key="10" icon={<UserOutlined />}>
+              Monks Galary
+            </Menu.Item>
+            <Menu.Item key="11" icon={<UserOutlined />}>
+              Meet the Team
+            </Menu.Item>
+            <Menu.Item key="12" icon={<UserOutlined />}>
               Work Timeline
             </Menu.Item>
+            <Menu.Item key="13" icon={<UserOutlined />}>
+              Showreel Link
+            </Menu.Item>
 
-            <Menu.SubMenu key="3" icon={<UploadOutlined />} title="Upload">
+            <Menu.SubMenu key="14" icon={<UploadOutlined />} title="Upload">
               <Menu.Item key="1" icon={<UserOutlined />}>
                 Home
               </Menu.Item>
@@ -121,6 +174,9 @@ const Menubar = () => {
               </Menu.Item>
             </Menu.SubMenu>
           </Menu>
+          <Button type="primary" onClick={handleSignout}>
+            Sign Out
+          </Button>
         </Sider>
         <Layout className="site-layout">
           <Header
@@ -142,7 +198,7 @@ const Menubar = () => {
             style={{
               margin: "24px 16px",
               padding: 24,
-              minHeight: 280,
+              minHeight: "90vh",
             }}
           >
             {renderContent()}

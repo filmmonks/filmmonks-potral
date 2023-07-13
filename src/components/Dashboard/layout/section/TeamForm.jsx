@@ -1,46 +1,45 @@
 import { Form, Input, Button } from "antd";
-// import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
+import { toast } from "react-toastify";
 
 const TeamForm = () => {
-  const onFinish = (values) => {
-    console.log("Form values:", values);
-    const teamData = {
-      // image: values.upload[0].originFileObj, // Assuming you are using Ant Design Upload component correctly
-      designation: values.designation,
-      email: values.email,
-      fb_link: values.fb,
-      linkedin: values.linkedin,
-      name: values.name,
-    };
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    fetch("http://localhost:5000/api/teams", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(teamData),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  console.log(selectedFile);
+  const onFinish = async (values) => {
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("title", values.designation);
+    formData.append("email", values.email);
+    formData.append("fb_link", values.fb);
+    formData.append("linkedin", values.linkedin);
+    formData.append("name", values.name);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/teams", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Error adding team member");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      toast("Team member added successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    }
   };
 
   return (
     <Form name="team-form" onFinish={onFinish}>
-      {/* <Form.Item label="Upload" valuePropName="fileList">
-        <Upload action="/upload.do" listType="picture-card">
-          <div>
-            <PlusOutlined />
-            <div
-              style={{
-                marginTop: 8,
-              }}
-            >
-              Upload
-            </div>
-          </div>
-        </Upload>
-      </Form.Item> */}
       <Form.Item name="designation" label="Designation">
         <Input />
       </Form.Item>
@@ -57,6 +56,7 @@ const TeamForm = () => {
         <Input />
       </Form.Item>
       <Form.Item>
+        <input type="file" name="image" onChange={handleFileChange} />
         <Button type="primary" htmlType="submit">
           Add Team Member
         </Button>

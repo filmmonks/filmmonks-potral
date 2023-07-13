@@ -1,16 +1,14 @@
-import { Table, Space, Button, Modal, Form, Input } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import { Table, Button, Space, Modal, Form, Input } from "antd";
 import { useEffect, useState } from "react";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
-const TeamTable = () => {
+const WorkTimelineTable = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [selectedRecord, setSelectedRecord] = useState(null);
-
   useEffect(() => {
-    fetch("http://localhost:5000/api/teams")
+    fetch("http://localhost:5000/api/work-timeline")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
@@ -25,8 +23,8 @@ const TeamTable = () => {
         if (image) {
           return (
             <img
-              src={`http://localhost:5000/team/` + image}
-              alt="Team Member"
+              src={`http://localhost:5000/timeline/` + image}
+              alt="timeline"
               width={50}
             />
           );
@@ -42,29 +40,60 @@ const TeamTable = () => {
       },
     },
     {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Designation",
-      dataIndex: "title",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Facebook",
-      dataIndex: "fb_link",
-    },
-    {
-      title: "LinkedIn",
-      dataIndex: "linkedin",
+      title: "Headline",
+      dataIndex: "headline",
+      key: "headline",
     },
 
     {
-      title: "Action",
-      dataIndex: "action",
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+
+      key: "type",
+    },
+    {
+      title: "Director",
+      dataIndex: "director",
+
+      key: "director",
+    },
+    {
+      title: "Year",
+      dataIndex: "year",
+
+      key: "year",
+    },
+    {
+      title: "Producer",
+      dataIndex: "producer",
+
+      key: "producer",
+    },
+    {
+      title: "Language",
+      dataIndex: "language",
+
+      key: "language",
+    },
+    {
+      title: "Writer",
+      dataIndex: "writer",
+
+      key: "writer",
+    },
+    {
+      title: "Video Link",
+      dataIndex: "videoLink",
+      key: "videoLink",
+    },
+    {
+      title: "Actions",
+      key: "actions",
       render: (_, record) => (
         <Space size="middle">
           <Button
@@ -85,6 +114,7 @@ const TeamTable = () => {
       ),
     },
   ];
+
   const handleEdit = (record) => {
     console.log(record);
     setSelectedRecord(record);
@@ -92,15 +122,16 @@ const TeamTable = () => {
     setIsModalVisible(true);
   };
   const handleSave = () => {
+    const _id = selectedRecord._id;
     form
       .validateFields()
       .then((values) => {
         console.log(values);
         // Extract the email from the form values
-        const { email, ...data } = values;
+        const {  ...data } = values;
 
         // Perform save/update logic using the values
-        fetch(`http://localhost:5000/api/teams/${email}`, {
+        fetch(`http://localhost:5000/api/work-timeline/${_id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -108,15 +139,17 @@ const TeamTable = () => {
           body: JSON.stringify(data),
         })
           .then((response) => {
+           
             if (!response.ok) {
               throw new Error("HTTP status " + response.status);
             }
             // Handle success response
-            console.log("Resource updated successfully");
+            toast("Resource updated successfully");
             setIsModalVisible(false);
           })
           .catch((error) => {
             // Handle error
+            toast("Error updating resource")
             console.error("Error updating resource:", error);
           });
       })
@@ -130,7 +163,7 @@ const TeamTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/teams/${key}`;
+    const url = `http://localhost:5000/api/work-timeline/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -144,7 +177,7 @@ const TeamTable = () => {
         }
         // Handle success response
         console.log("Resource deleted successfully");
-        toast("member is deleted");
+        toast("work timeline is deleted");
       })
       .catch((error) => {
         // Handle error
@@ -157,7 +190,7 @@ const TeamTable = () => {
 
   return (
     <>
-      <Table dataSource={dataSource} columns={columns} scroll={{ x: 800 }} />
+      <Table columns={columns} dataSource={dataSource} scroll={{ x: 800 }} />
       <Modal
         title="Edit Record"
         visible={isModalVisible}
@@ -165,29 +198,56 @@ const TeamTable = () => {
         onCancel={handleCancel}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          {/* <Form.Item name="image" label="Image" rules={[{ required: true }]}>
             <Input />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            name="title"
-            label="Designation"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="fb_link"
-            label="Facebook"
+            name="headline"
+            label="Headline"
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="linkedin"
-            label="LinkedIn"
+            name="content"
+            label="Content"
+            rules={[{ required: true }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="director"
+            label="Director"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="year" label="Year" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="producer"
+            label="Producer"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="language"
+            label="Language"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="writer" label="Writer" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="videoLink"
+            label="Video Link"
             rules={[{ required: true }]}
           >
             <Input />
@@ -198,4 +258,4 @@ const TeamTable = () => {
   );
 };
 
-export default TeamTable;
+export default WorkTimelineTable;

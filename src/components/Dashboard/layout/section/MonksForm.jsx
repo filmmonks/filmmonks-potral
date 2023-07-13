@@ -1,28 +1,46 @@
-import { Form, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
 const MonksForm = () => {
-  const onFinish = (values) => {
-    console.log("Form values:", values);
-    // Handle form submission logic here
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+console.log(selectedFile)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("monks-galary", selectedFile);
+
+      fetch("http://localhost:5000/api/monks-galary", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("File uploaded successfully");
+            toast("file is added")
+            setSelectedFile(null);
+          } else {
+            console.error("Error uploading file");
+          }
+        })
+        .catch((error) => {
+          console.error("Error uploading file: ", error);
+        });
+    }
   };
 
   return (
-    <Form name="monks-form" onFinish={onFinish}>
-      <Form.Item label="Upload" valuePropName="fileList">
-        <Upload action="/upload.do" listType="picture-card">
-          <div>
-            <PlusOutlined />
-            <div
-              style={{
-                marginTop: 8,
-              }}
-            >
-              Upload
-            </div>
-          </div>
-        </Upload>
-      </Form.Item>
-    </Form>
+    <form onSubmit={handleSubmit}>
+    <input type="file" name="monks-galary" onChange={handleFileChange} />
+    <button type="submit" disabled={!selectedFile}>
+      Upload
+    </button>
+  </form>
   );
 };
 

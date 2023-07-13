@@ -1,44 +1,47 @@
-import { Form, Upload } from "antd";
-// import { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
 const Home = () => {
-//   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-//   const handleFileChange = (event) => {
-//     const file = event.target.files[0];
-//     setSelectedFile(file);
-//   };
-
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  console.log(selectedFile);
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Perform upload logic here using the selectedFile
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
 
-    // Reset the form
-    // setSelectedFile(null);
+      fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("File uploaded successfully");
+            setSelectedFile(null);
+          } else {
+            console.error("Error uploading file");
+          }
+        })
+        .catch((error) => {
+          console.error("Error uploading file: ", error);
+        });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button type="submit" disabled={!selectedFile}>
-        Upload
-      </button> */}
-      <Form.Item label="Upload" valuePropName="fileList">
-        <Upload action="/upload.do" listType="picture-card">
-          <div>
-            <PlusOutlined />
-            <div
-              style={{
-                marginTop: 8,
-              }}
-            >
-              Upload
-            </div>
-          </div>
-        </Upload>
-      </Form.Item>
-    </form>
+    <div>
+      <h1>Monks Galary</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="file" name="file" onChange={handleFileChange} />
+        <button type="submit" disabled={!selectedFile}>
+          Upload
+        </button>
+      </form>
+    </div>
   );
 };
 
