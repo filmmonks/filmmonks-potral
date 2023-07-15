@@ -146,12 +146,12 @@ const AboutTable = () => {
           >
             <Input.TextArea />
           </Form.Item>
-          <Form.Item name="image" label="Image" rules={[{ required: true }]}>
+          {/* <Form.Item name="image" label="Image" rules={[{ required: true }]}>
             <img
               style={{ width: "300px" }}
               src={`http://localhost:5000/about/1689224143138-IMG_20220724_142355.jpg`}
             />
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     </div>

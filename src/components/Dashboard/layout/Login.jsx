@@ -68,7 +68,8 @@ const LoginWrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("https://i.ibb.co/6gk5w2Y/Black-Simple-You-Tube-Thumbnail.png");
+    background: black;
+    // background-image: url("https://i.ibb.co/6gk5w2Y/Black-Simple-You-Tube-Thumbnail.png");
     background-size: cover;
   }
 

@@ -34,7 +34,7 @@ const Menubar = () => {
   };
 
   const handleSignout = () => {
-    console.log("first")
+
     signOut(auth);
   };
 
