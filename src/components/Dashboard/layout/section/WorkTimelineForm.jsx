@@ -19,7 +19,7 @@ const WorkTimelineForm = () => {
     formData.append("timeline", selectedFile);
     formData.append("headline", values.headline);
     formData.append("content", values.content);
-    formData.append("type", values.type);
+    formData.append("type", values.type );
     formData.append("director", values.director);
     formData.append("year", values.year);
     formData.append("producer", values.producer);

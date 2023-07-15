@@ -40,6 +40,9 @@ const TeamForm = () => {
 
   return (
     <Form name="team-form" onFinish={onFinish}>
+      <Form.Item name="name" label="Name">
+        <Input />
+      </Form.Item>
       <Form.Item name="designation" label="Designation">
         <Input />
       </Form.Item>
@@ -52,12 +55,24 @@ const TeamForm = () => {
       <Form.Item name="linkedin" label="LinkedIn">
         <Input />
       </Form.Item>
-      <Form.Item name="name" label="Name">
-        <Input />
-      </Form.Item>
+
       <Form.Item>
-        <input type="file" name="image" onChange={handleFileChange} />
-        <Button type="primary" htmlType="submit">
+        <label> Image</label>
+        <input
+          style={{
+            display: "inline-block",
+            marginBlock: "20px",
+            marginLeft: "20px",
+          }}
+          type="file"
+          name="image"
+          onChange={handleFileChange}
+        />
+        <Button
+          style={{ display: "block", margin: "auto" }}
+          type="primary"
+          htmlType="submit"
+        >
           Add Team Member
         </Button>
       </Form.Item>
