@@ -4,11 +4,11 @@ import useFetch from "../../../../hooks/useFetch";
 import { toast } from "react-toastify";
 
 const HomeCoverTable = () => {
-  const apiUrl = "https://filmmonks-server.onrender.com/upload"; // Replace with your API URL
+  const apiUrl = "http://localhost:5000/upload"; // Replace with your API URL
   const { dataSource } = useFetch(apiUrl);
-
+  console.log(dataSource);
   const handleDelete = (key) => {
-    const url = `https://filmmonks-server.onrender.com/upload/${key}`;
+    const url = `http://localhost:5000/upload/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -37,12 +37,17 @@ const HomeCoverTable = () => {
       title: "Image",
       dataIndex: "path",
       key: "image",
-      render: (image) => (
-        <img
-          src={`https://filmmonks-server.onrender.com/home/` + image}
-          alt="Image"
-          style={{ width: "100px" }}
-        />
+      render: (images) => (
+        <>
+          {images.map((image) => (
+            <img
+              key={image.id}
+              src={`http://localhost:5000/home/` + image?.pathname}
+              alt="Image"
+              style={{ width: "100px", marginRight: "5px" }}
+            />
+          ))}
+        </>
       ),
     },
     {

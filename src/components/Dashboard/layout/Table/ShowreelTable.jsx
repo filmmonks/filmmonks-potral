@@ -10,7 +10,7 @@ const ShowreelTable = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   useEffect(() => {
-    fetch("https://filmmonks-server.onrender.com/api/showreels-link")
+    fetch("http://localhost:5000/api/showreels-link")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
@@ -50,7 +50,7 @@ const ShowreelTable = () => {
 
         // Perform save/update logic using the values
 
-        fetch(`https://filmmonks-server.onrender.com/api/showreels-link/${link}`, {
+        fetch(`http://localhost:5000/api/showreels-link/${link}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const ShowreelTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `https://filmmonks-server.onrender.com/api/showreels-link/${key}`;
+    const url = `http://localhost:5000/api/showreels-link/${key}`;
 
     fetch(url, {
       method: "DELETE",

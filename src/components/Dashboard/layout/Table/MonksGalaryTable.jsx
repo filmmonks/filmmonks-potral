@@ -3,7 +3,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { Button, Space, Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 const MonksGalaryTable = () => {
-  const apiUrl = "https://filmmonks-server.onrender.com/api/monks-galary"; // Replace with your API URL
+  const apiUrl = "http://localhost:5000/api/monks-galary"; // Replace with your API URL
   const { dataSource, loading, error } = useFetch(apiUrl);
 
   if (loading) {
@@ -14,7 +14,7 @@ const MonksGalaryTable = () => {
     return <div>Error: {error.message}</div>;
   }
   const handleDelete = (key) => {
-    const url = `https://filmmonks-server.onrender.com/api/monks-galary/${key}`;
+    const url = `http://localhost:5000/api/monks-galary/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -45,7 +45,7 @@ const MonksGalaryTable = () => {
       key: "image",
       render: (image) => (
         <img
-          src={`https://filmmonks-server.onrender.com/monks/` + image}
+          src={`http://localhost:5000/monks/` + image}
           alt="Image"
           style={{ width: "100px" }}
         />

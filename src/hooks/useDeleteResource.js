@@ -6,7 +6,7 @@ const useDeleteResource = () => {
   const [error, setError] = useState(null);
 
   const handleDelete = (key) => {
-    const url = `https://filmmonks-server.onrender.com/upload/${key}`;
+    const url = `http://localhost:5000/upload/${key}`;
 
     setIsLoading(true);
     setError(null);

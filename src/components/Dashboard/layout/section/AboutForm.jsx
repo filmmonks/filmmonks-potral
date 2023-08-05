@@ -3,34 +3,38 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const AboutForm = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFiles(event.target.files);
   };
- 
+
   const onFinish = async (values) => {
     console.log(values.description);
-    const formData = new FormData();
-    formData.append("about", selectedFile);
-    formData.append("description", values.description);
 
-    try {
-      const response = await fetch("https://filmmonks-server.onrender.com/api/about", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("error adding the data");
+    if (selectedFiles.length > 0) {
+      const formData = new FormData();
+      formData.append("description", values.description);
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append("aboutfiles", selectedFiles[i]);
       }
+      try {
+        const response = await fetch("http://localhost:5000/api/about", {
+          method: "POST",
+          body: formData,
+        });
 
-      const data = await response.json();
-      console.log(data);
-      toast("data is inserted successfully");
-    } catch (error) {
-      console.error(error);
-      toast.error(error.message);
+        if (!response.ok) {
+          throw new Error("error adding the data");
+        }
+
+        const data = await response.json();
+        console.log(data);
+        toast("data is inserted successfully");
+      } catch (error) {
+        console.error(error);
+        toast.error(error.message);
+      }
     }
   };
 
@@ -40,7 +44,7 @@ const AboutForm = () => {
         <Input.TextArea rows={4} />
       </Form.Item>
 
-      <input type="file" name="about" onChange={handleFileChange} />
+      <input type="file" name="about" onChange={handleFileChange} multiple />
       <Button type="primary" htmlType="submit">
         Add
       </Button>
