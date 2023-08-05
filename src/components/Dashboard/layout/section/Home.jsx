@@ -17,7 +17,7 @@ const Home = () => {
         formData.append("files", selectedFiles[i]);
       }
 
-      fetch("http://localhost:5000/upload", {
+      fetch("https://filmmonks-server.onrender.com/upload", {
         method: "POST",
         body: formData,
       })

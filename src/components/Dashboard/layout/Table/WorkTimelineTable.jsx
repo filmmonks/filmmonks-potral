@@ -8,7 +8,7 @@ const WorkTimelineTable = () => {
   const [form] = Form.useForm();
   const [selectedRecord, setSelectedRecord] = useState(null);
   useEffect(() => {
-    fetch("http://localhost:5000/api/work-timeline")
+    fetch("https://filmmonks-server.onrender.com/api/work-timeline")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
@@ -23,7 +23,7 @@ const WorkTimelineTable = () => {
         if (image) {
           return (
             <img
-              src={`http://localhost:5000/timeline/` + image}
+              src={`https://filmmonks-server.onrender.com/timeline/` + image}
               alt="timeline"
               width={50}
             />
@@ -131,7 +131,7 @@ const WorkTimelineTable = () => {
         const { ...data } = values;
 
         // Perform save/update logic using the values
-        fetch(`http://localhost:5000/api/work-timeline/${_id}`, {
+        fetch(`https://filmmonks-server.onrender.com/api/work-timeline/${_id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -162,7 +162,7 @@ const WorkTimelineTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/work-timeline/${key}`;
+    const url = `https://filmmonks-server.onrender.com/api/work-timeline/${key}`;
 
     fetch(url, {
       method: "DELETE",

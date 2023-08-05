@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { toast } from "react-toastify";
 const AboutTable = () => {
-  const apiUrl = "http://localhost:5000/api/about"; // Replace with your API URL
+  const apiUrl = "https://filmmonks-server.onrender.com/api/about"; // Replace with your API URL
   const { dataSource, loading, error } = useFetch(apiUrl);
   console.log(dataSource);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -31,7 +31,7 @@ const AboutTable = () => {
       const { ...data } = values;
 
       // Perform save/update logic using the values
-      fetch(`http://localhost:5000/api/about/${_id}`, {
+      fetch(`https://filmmonks-server.onrender.com/api/about/${_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const AboutTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/about/${key}`;
+    const url = `https://filmmonks-server.onrender.com/api/about/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -99,7 +99,7 @@ const AboutTable = () => {
           {images.map((image) => (
             <img
               key={image.id}
-              src={`http://localhost:5000/about/` + image?.pathname}
+              src={`https://filmmonks-server.onrender.com/about/` + image?.pathname}
               alt="Image"
               style={{ width: "100px", marginRight: "5px" }}
             />

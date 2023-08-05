@@ -19,7 +19,7 @@ const AboutForm = () => {
         formData.append("aboutfiles", selectedFiles[i]);
       }
       try {
-        const response = await fetch("http://localhost:5000/api/about", {
+        const response = await fetch("https://filmmonks-server.onrender.com/api/about", {
           method: "POST",
           body: formData,
         });

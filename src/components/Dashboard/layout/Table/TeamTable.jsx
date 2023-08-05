@@ -10,7 +10,7 @@ const TeamTable = () => {
   const [setSelectedRecord] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/teams")
+    fetch("https://filmmonks-server.onrender.com/api/teams")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
@@ -25,7 +25,7 @@ const TeamTable = () => {
         if (image) {
           return (
             <img
-              src={`http://localhost:5000/team/` + image}
+              src={`https://filmmonks-server.onrender.com/team/` + image}
               alt="Team Member"
               width={50}
             />
@@ -100,7 +100,7 @@ const TeamTable = () => {
         const { email, ...data } = values;
 
         // Perform save/update logic using the values
-        fetch(`http://localhost:5000/api/teams/${email}`, {
+        fetch(`https://filmmonks-server.onrender.com/api/teams/${email}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const TeamTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/teams/${key}`;
+    const url = `https://filmmonks-server.onrender.com/api/teams/${key}`;
 
     fetch(url, {
       method: "DELETE",

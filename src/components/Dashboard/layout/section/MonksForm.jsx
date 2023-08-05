@@ -15,7 +15,7 @@ console.log(selectedFile)
       const formData = new FormData();
       formData.append("monks-galary", selectedFile);
 
-      fetch("http://localhost:5000/api/monks-galary", {
+      fetch("https://filmmonks-server.onrender.com/api/monks-galary", {
         method: "POST",
         body: formData,
       })
