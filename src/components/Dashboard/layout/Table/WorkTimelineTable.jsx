@@ -8,12 +8,12 @@ const WorkTimelineTable = () => {
   const [form] = Form.useForm();
   const [selectedRecord, setSelectedRecord] = useState(null);
   useEffect(() => {
-    fetch("http://localhost:5000/api/work-timeline")
+    fetch("https://filmmonks-server.onrender.com/api/work-timeline")
       .then((res) => res.json())
       .then((data) => setDataSource(data))
       .catch((err) => console.error(err));
   }, []);
-
+  console.log(dataSource);
   const columns = [
     {
       title: "Image",
@@ -23,7 +23,7 @@ const WorkTimelineTable = () => {
         if (image) {
           return (
             <img
-              src={`http://localhost:5000/timeline/` + image}
+              src={`https://filmmonks-server.onrender.com/timeline/` + image}
               alt="timeline"
               width={50}
             />
@@ -128,10 +128,10 @@ const WorkTimelineTable = () => {
       .then((values) => {
         console.log(values);
         // Extract the email from the form values
-        const {  ...data } = values;
+        const { ...data } = values;
 
         // Perform save/update logic using the values
-        fetch(`http://localhost:5000/api/work-timeline/${_id}`, {
+        fetch(`https://filmmonks-server.onrender.com/api/work-timeline/${_id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +139,6 @@ const WorkTimelineTable = () => {
           body: JSON.stringify(data),
         })
           .then((response) => {
-           
             if (!response.ok) {
               throw new Error("HTTP status " + response.status);
             }
@@ -149,7 +148,7 @@ const WorkTimelineTable = () => {
           })
           .catch((error) => {
             // Handle error
-            toast("Error updating resource")
+            toast("Error updating resource");
             console.error("Error updating resource:", error);
           });
       })
@@ -163,7 +162,7 @@ const WorkTimelineTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/work-timeline/${key}`;
+    const url = `https://filmmonks-server.onrender.com/api/work-timeline/${key}`;
 
     fetch(url, {
       method: "DELETE",

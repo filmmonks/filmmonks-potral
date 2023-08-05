@@ -20,7 +20,7 @@ const TeamForm = () => {
     formData.append("name", values.name);
 
     try {
-      const response = await fetch("http://localhost:5000/api/teams", {
+      const response = await fetch("https://filmmonks-server.onrender.com/api/teams", {
         method: "POST",
         body: formData,
       });
@@ -68,6 +68,17 @@ const TeamForm = () => {
           name="image"
           onChange={handleFileChange}
         />
+        <b>
+          <small style={{ color: "red", display: "block" }}>
+            {" "}
+            Please add image 384px × 384 px circle with no background
+          </small>
+        </b>
+        {/* <img
+          style={{ border: "1px solid black" }}
+          src="https://filmmonks-server.onrender.com/team/1689421020413-1.png"
+          alt="team"
+        /> */}
         <Button
           style={{ display: "block", margin: "auto" }}
           type="primary"

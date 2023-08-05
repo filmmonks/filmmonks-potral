@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { toast } from "react-toastify";
 const AboutTable = () => {
-  const apiUrl = "http://localhost:5000/api/about"; // Replace with your API URL
+  const apiUrl = "https://filmmonks-server.onrender.com/api/about"; // Replace with your API URL
   const { dataSource, loading, error } = useFetch(apiUrl);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
@@ -30,7 +30,7 @@ const AboutTable = () => {
       const { ...data } = values;
 
       // Perform save/update logic using the values
-      fetch(`http://localhost:5000/api/about/${_id}`, {
+      fetch(`https://filmmonks-server.onrender.com/api/about/${_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const AboutTable = () => {
   };
 
   const handleDelete = (key) => {
-    const url = `http://localhost:5000/api/about/${key}`;
+    const url = `https://filmmonks-server.onrender.com/api/about/${key}`;
 
     fetch(url, {
       method: "DELETE",
@@ -95,7 +95,7 @@ const AboutTable = () => {
       key: "image",
       render: (image) => (
         <img
-          src={`http://localhost:5000/about/` + image}
+          src={`https://filmmonks-server.onrender.com/about/` + image}
           alt="Image"
           style={{ width: "100px" }}
         />
@@ -149,7 +149,7 @@ const AboutTable = () => {
           {/* <Form.Item name="image" label="Image" rules={[{ required: true }]}>
             <img
               style={{ width: "300px" }}
-              src={`http://localhost:5000/about/1689224143138-IMG_20220724_142355.jpg`}
+              src={`https://filmmonks-server.onrender.com/about/1689224143138-IMG_20220724_142355.jpg`}
             />
           </Form.Item> */}
         </Form>
