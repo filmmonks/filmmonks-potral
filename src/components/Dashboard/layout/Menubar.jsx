@@ -34,7 +34,6 @@ const Menubar = () => {
   };
 
   const handleSignout = () => {
-
     signOut(auth);
   };
 
@@ -58,8 +57,7 @@ const Menubar = () => {
             <ShowreelForm />
           </div>
         );
-      case "4":
-        return <div>Content 4</div>;
+
       case "5":
         return (
           <div>
@@ -160,9 +158,9 @@ const Menubar = () => {
               <Menu.Item key="3" icon={<VideoCameraOutlined />}>
                 ShowReel
               </Menu.Item>
-              <Menu.Item key="4" icon={<MailOutlined />}>
+              {/* <Menu.Item key="4" icon={<MailOutlined />}>
                 Recent Works
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item key="5" icon={<MailOutlined />}>
                 Work Timeline
               </Menu.Item>
@@ -201,7 +199,13 @@ const Menubar = () => {
               minHeight: "90vh",
             }}
           >
-            {renderContent()}
+            {renderContent() ? (
+              renderContent()
+            ) : (
+              <h1 style={{ fontSize: "3rem" }}>
+                Hello, Welcome to the Dashboard!
+              </h1>
+            )}
           </Content>
         </Layout>
       </Layout>

@@ -8,6 +8,7 @@ import {
 } from "react-firebase-hooks/auth";
 // import image from  "../../../assets/Black Simple YouTube Thumbnail"
 import auth from "../../../firebase.init";
+import backgroundImage from "../../../assets/bg.png";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
@@ -50,13 +51,17 @@ const LoginPage = () => {
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading} block>
+              <Button htmlType="submit" loading={loading} block>
                 Log in
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button block onClick={() => signInWithGoogle()}>
+                Sign In With Google
               </Button>
             </Form.Item>
           </Form>
         </div>
-        <button onClick={() => signInWithGoogle()}>Sign In</button>
       </div>
     </LoginWrapper>
   );
@@ -69,13 +74,13 @@ const LoginWrapper = styled.div`
     align-items: center;
     height: 100vh;
     background: black;
-    // background-image: url("https://i.ibb.co/6gk5w2Y/Black-Simple-You-Tube-Thumbnail.png");
+    background-image: url(${backgroundImage});
     background-size: cover;
   }
 
   .login-form {
     width: 300px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #7c6c6ccc;
     padding: 20px;
     border-radius: 4px;
   }
