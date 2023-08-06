@@ -7,7 +7,7 @@ const Home = () => {
   const handleFileChange = (event) => {
     setSelectedFiles(event.target.files);
   };
-  console.log(selectedFiles);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -40,9 +40,18 @@ const Home = () => {
       <h1>Home Cover</h1>
       <form onSubmit={handleSubmit}>
         <input type="file" name="file" onChange={handleFileChange} multiple />
+
         <button type="submit" disabled={selectedFiles.length === 0}>
           Upload
         </button>
+        <b>
+          <small style={{ color: "red", display: "block" }}>
+            {" "}
+            Please add 3 images
+            <br /> mobile-size (375px × 475px) <br />
+            tablet-size (1040px ×742px) <br /> desktop-size (1920px × 885px)
+          </small>
+        </b>
       </form>
     </div>
   );

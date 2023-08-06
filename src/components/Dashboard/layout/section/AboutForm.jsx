@@ -19,10 +19,13 @@ const AboutForm = () => {
         formData.append("aboutfiles", selectedFiles[i]);
       }
       try {
-        const response = await fetch("https://filmmonks-server.onrender.com/api/about", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          "https://filmmonks-server.onrender.com/api/about",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (!response.ok) {
           throw new Error("error adding the data");
@@ -45,7 +48,13 @@ const AboutForm = () => {
       </Form.Item>
 
       <input type="file" name="about" onChange={handleFileChange} multiple />
-      <Button type="primary" htmlType="submit">
+      <b>
+        <small style={{ color: "red", display: "block" }}>
+          {" "}
+          Please add 4 images for the about section layout
+        </small>
+      </b>
+      <Button className="btn" type="primary" htmlType="submit">
         Add
       </Button>
     </Form>

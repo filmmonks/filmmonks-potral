@@ -19,7 +19,7 @@ const ShowreelForm = () => {
       body: JSON.stringify(linkData),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         // console.log(data);
         toast("Link is added successfully"); // Display toast notification
       })
@@ -44,8 +44,14 @@ const ShowreelForm = () => {
       >
         <Input placeholder="Enter link" />
       </Form.Item>
+      <b>
+        <small style={{ color: "red", display: "block" }}>
+          {" "}
+          Please add  youtube link in embeded form
+        </small>
+      </b>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button className="btn" type="primary" htmlType="submit">
           Add Link
         </Button>
       </Form.Item>

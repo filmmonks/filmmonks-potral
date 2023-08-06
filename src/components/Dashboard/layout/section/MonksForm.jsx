@@ -7,7 +7,7 @@ const MonksForm = () => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-console.log(selectedFile)
+  console.log(selectedFile);
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -22,7 +22,7 @@ console.log(selectedFile)
         .then((response) => {
           if (response.ok) {
             console.log("File uploaded successfully");
-            toast("file is added")
+            toast("file is added");
             setSelectedFile(null);
           } else {
             console.error("Error uploading file");
@@ -36,11 +36,18 @@ console.log(selectedFile)
 
   return (
     <form onSubmit={handleSubmit}>
-    <input type="file" name="monks-galary" onChange={handleFileChange} />
-    <button type="submit" disabled={!selectedFile}>
-      Upload
-    </button>
-  </form>
+      <input type="file" name="monks-galary" onChange={handleFileChange} />
+
+      <button type="submit" disabled={!selectedFile}>
+        Upload
+      </button>
+      <b>
+        <small style={{ color: "red", display: "block" }}>
+          {" "}
+          Please add 1 image for the galary
+        </small>
+      </b>
+    </form>
   );
 };
 

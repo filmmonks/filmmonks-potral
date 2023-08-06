@@ -1,44 +1,43 @@
 import { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import {
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
-  useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
-// import image from  "../../../assets/Black Simple YouTube Thumbnail"
 import auth from "../../../firebase.init";
 import backgroundImage from "../../../assets/bg.png";
-import { Link } from "react-router-dom";
-const LoginPage = () => {
+
+const Register = () => {
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (values) => {
+  const handleRegister = async (values) => {
     setLoading(true);
-    console.log(values);
-
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await createUserWithEmailAndPassword(values.email, values.password);
       setLoading(false);
-      signInWithEmailAndPassword(values.username, values.password);
-    }, 1500);
+    } catch (error) {
+      console.error("Error creating user: ", error);
+      setLoading(false);
+    }
   };
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
   return (
-    <LoginWrapper>
-      <div className="login-page">
-        <div className="login-form">
-          <h2>Login</h2>
-          <Form name="login-form" onFinish={handleLogin}>
+    <RegisterWrapper>
+      <div className="register-page">
+        <div className="register-form">
+          <h2>Register</h2>
+          <Form name="register-form" onFinish={handleRegister}>
             <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: "Please enter your username" },
-              ]}
+              name="email"
+              rules={[{ required: true, message: "Please enter your email" }]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Username" />
+              <Input prefix={<MailOutlined />} placeholder="Email" />
             </Form.Item>
             <Form.Item
               name="password"
@@ -51,9 +50,17 @@ const LoginPage = () => {
                 placeholder="Password"
               />
             </Form.Item>
+            <Form.Item
+              name="username"
+              rules={[
+                { required: true, message: "Please enter your username" },
+              ]}
+            >
+              <Input prefix={<UserOutlined />} placeholder="Username" />
+            </Form.Item>
             <Form.Item>
               <Button htmlType="submit" loading={loading} block>
-                Log in
+                Register
               </Button>
             </Form.Item>
             <Form.Item>
@@ -61,16 +68,15 @@ const LoginPage = () => {
                 Sign In With Google
               </Button>
             </Form.Item>
-            <Link to="/register"> Create an Account </Link>
           </Form>
         </div>
       </div>
-    </LoginWrapper>
+    </RegisterWrapper>
   );
 };
 
-const LoginWrapper = styled.div`
-  .login-page {
+const RegisterWrapper = styled.div`
+  .register-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,7 +86,7 @@ const LoginWrapper = styled.div`
     background-size: cover;
   }
 
-  .login-form {
+  .register-form {
     width: 300px;
     background-color: #7c6c6ccc;
     padding: 20px;
@@ -88,4 +94,4 @@ const LoginWrapper = styled.div`
   }
 `;
 
-export default LoginPage;
+export default Register;

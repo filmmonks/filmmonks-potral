@@ -9,17 +9,14 @@ const WorkTimelineForm = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-
-
   console.log(selectedFile);
   const onFinish = async (values) => {
-
-    console.log(values)
+    console.log(values);
     const formData = new FormData();
     formData.append("timeline", selectedFile);
     formData.append("headline", values.headline);
     formData.append("content", values.content);
-    formData.append("type", values.type );
+    formData.append("type", values.type);
     formData.append("director", values.director);
     formData.append("year", values.year);
     formData.append("producer", values.producer);
@@ -28,10 +25,13 @@ const WorkTimelineForm = () => {
     formData.append("videoLink", values.videoLink);
 
     try {
-      const response = await fetch("https://filmmonks-server.onrender.com/api/work-timeline", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://filmmonks-server.onrender.com/api/work-timeline",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error adding timeline");
@@ -73,10 +73,26 @@ const WorkTimelineForm = () => {
       </Form.Item>
       <Form.Item name="videoLink" label="Video Link">
         <Input />
+        <b>
+          <small style={{ color: "red", display: "block" }}>
+            {" "}
+            Please add youtube link embeded form
+          </small>
+        </b>
       </Form.Item>
       <Form.Item>
         <input type="file" name="timeline" onChange={handleFileChange} />
-        <Button type="primary" htmlType="submit">
+        <b>
+          <small style={{ color: "red", display: "block" }}>
+            {" "}
+            Please add images for the work-timeline
+          </small>
+        </b>
+        <Button
+          style={{ display: "block", margin: "auto" }}
+          type="primary"
+          htmlType="submit"
+        >
           Add Work Timeline
         </Button>
       </Form.Item>
