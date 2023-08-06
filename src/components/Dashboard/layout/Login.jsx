@@ -5,24 +5,32 @@ import styled from "styled-components";
 import {
   useSignInWithGoogle,
   useSignInWithEmailAndPassword,
+  useAuthState,
 } from "react-firebase-hooks/auth";
 // import image from  "../../../assets/Black Simple YouTube Thumbnail"
 import auth from "../../../firebase.init";
 import backgroundImage from "../../../assets/bg.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
-
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+  if (user) {
+    navigate("/dashboard");
+  }
   const handleLogin = (values) => {
     setLoading(true);
     console.log(values);
-
+    if (user) {
+      navigate("/dashboard");
+    }
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-      signInWithEmailAndPassword(values.username, values.password);
+      signInWithEmailAndPassword(values.email, values.password);
     }, 1500);
   };
+
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
@@ -33,12 +41,10 @@ const LoginPage = () => {
           <h2>Login</h2>
           <Form name="login-form" onFinish={handleLogin}>
             <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: "Please enter your username" },
-              ]}
+              name="email"
+              rules={[{ required: true, message: "Please enter your email" }]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Username" />
+              <Input prefix={<UserOutlined />} placeholder="Email" />
             </Form.Item>
             <Form.Item
               name="password"
@@ -61,15 +67,19 @@ const LoginPage = () => {
                 Sign In With Google
               </Button>
             </Form.Item>
-            <Link to="/register"> Create an Account </Link>
           </Form>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {" "}
+            <Link to="/register"> Create An Account </Link>
+            <Link to="/reset-password">Forgot Password</Link>
+          </div>
         </div>
       </div>
     </LoginWrapper>
   );
 };
 
-const LoginWrapper = styled.div`
+export const LoginWrapper = styled.div`
   .login-page {
     display: flex;
     justify-content: center;

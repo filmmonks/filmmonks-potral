@@ -3,15 +3,21 @@ import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import {
+  useAuthState,
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import backgroundImage from "../../../assets/bg.png";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
+  const [user] = useAuthState(auth);
+  if (user) {
+    navigate("/dashboard");
+  }
   const handleRegister = async (values) => {
     setLoading(true);
     try {
@@ -69,6 +75,11 @@ const Register = () => {
               </Button>
             </Form.Item>
           </Form>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {" "}
+            <Link to="/"> Log-in </Link>
+            <Link to="/reset-password">Forgot Password</Link>
+          </div>
         </div>
       </div>
     </RegisterWrapper>

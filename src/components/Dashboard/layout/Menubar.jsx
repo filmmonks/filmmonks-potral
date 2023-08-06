@@ -29,17 +29,19 @@ import AboutTable from "./Table/AboutTable";
 import MonksGalaryTable from "./Table/MonksGalaryTable";
 import logo from "../../../assets/logo.png";
 import logo1 from "../../../assets/logo1.png";
+import { useNavigate } from "react-router-dom";
 const { Header, Sider, Content } = Layout;
 const Menubar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedNav, setSelectedNav] = useState("");
-
+  const navigate = useNavigate();
   const handleNavClick = (navKey) => {
     setSelectedNav(navKey);
   };
 
   const handleSignout = () => {
     signOut(auth);
+    navigate("/");
   };
 
   const renderContent = () => {
