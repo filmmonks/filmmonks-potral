@@ -7,7 +7,7 @@ const TeamTable = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [setSelectedRecord] = useState(null);
+  const [selectedRecord, setSelectedRecord] = useState(null);
 
   useEffect(() => {
     fetch("https://filmmonks-server.onrender.com/api/teams")
@@ -86,12 +86,12 @@ const TeamTable = () => {
     },
   ];
   const handleEdit = (record) => {
-    console.log(record);
     setSelectedRecord(record);
     form.setFieldsValue(record);
     setIsModalVisible(true);
   };
   const handleSave = () => {
+    console.log(selectedRecord);
     form
       .validateFields()
       .then((values) => {
